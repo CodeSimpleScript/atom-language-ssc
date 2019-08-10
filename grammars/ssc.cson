@@ -1,0 +1,163 @@
+scopeName: 'source.ssc'
+name: 'SimpleScript'
+fileTypes: ['ssc']
+
+patterns: [
+	{
+		include: '#comments'
+	}
+	{
+		include: '#numbers'
+	}
+	{
+		include: '#constants'
+	}
+	{
+		include: '#strings'
+	}
+	{
+		include: '#misc'
+	}
+	{
+		include: '#keywords'
+	}
+	{
+		include: '#variables'
+	}
+	{
+		include: '#functions'
+	}
+]
+
+repository:
+	comments:
+		patterns: [
+			{
+				begin: '//'
+				end: '\\n'
+				name: 'comment.line.double-slash.ssc'
+			}
+			{
+				begin: '/\\*'
+				beginCaptures:
+					'0':
+						name: 'punctuation.definition.comment.begin.ssc'
+				end: '\\*/'
+				endCaptures:
+					'0':
+						name: 'punctuation.definition.comment.end.ssc'
+				name: 'comment.block.ssc'
+			}
+		]
+
+	numbers:
+		patterns: [
+			{
+				match: '\\b(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))((E|e)(\\+|-)?[0-9]+)?\\b'
+				name: 'constant.numeric.ssc'
+			}
+		]
+
+	constants:
+		patterns: [
+			{
+				match: '%(pi|e|i|eps|inf|nan|t|T|f|F|s|z)\\b'
+				name: 'support.constant.ssc'
+			}
+		]
+
+	strings:
+		patterns: [
+			{
+				begin: '(?<![\\w\\]\)])\''
+				beginCaptures:
+					'0':
+						name: 'punctuation.definition.string.begin.ssc'
+				end: '\'(?!\')'
+				endCaptures:
+					'0':
+						name: 'punctuation.definition.string.end.ssc'
+				name: 'string.quoted.single.ssc'
+				patterns: [
+					{
+						match: '\'\'|""'
+						name: 'constant.character.escape.ssc'
+					}
+				]
+			}
+			{
+				begin: '"'
+				beginCaptures:
+					'0':
+						name: 'punctuation.definition.string.begin.ssc'
+				end: '"(?!")'
+				endCaptures:
+					'0':
+						name: 'punctuation.definition.string.end.ssc'
+				name: 'string.quoted.double.ssc'
+				patterns: [
+					{
+						match: '\'\'|""'
+						name: 'constant.character.escape.ssc'
+					}
+				]
+			}
+		]
+
+	misc:
+		patterns: [
+			{
+				match: '\\.\\.\\.\\s*$'
+				name: 'punctuation.separator.continuation.ssc'
+			}
+		]
+
+	keywords:
+		patterns: [
+			{
+				match: '\\b(break|case|catch|clear|continue|do|else|elseif|end|endfunction|exit|for|if|pause|pwd|quit|return|select|then|try|while)\\b'
+				name: 'keyword.control.ssc'
+			}
+		]
+	variables:
+		patterns: [
+			{
+				match: '\\b(v\\.|gv\\.|sv\\.|pv\\.|cv\\.|uv\\.)+([a-zA-Z0-9_-]*)?'
+				captures:
+					'1':
+						name: 'entity.type.variable.ssc'
+					'2':
+						name: 'entity.name.variable.ssc'
+				name: 'meta.variable.ssc'
+			}
+		]
+	functions:
+		patterns: [
+			{
+				match: '\\b(f\\.)+([a-zA-Z0-9_-]*)?'
+				captures:
+					'1':
+						name: 'entity.name.function.ssc'
+					'2':
+						name: 'entity.name.function.ssc'
+				name: 'meta.function.ssc'
+			}
+			{
+				match: '\\b(s\\.)+([a-zA-Z0-9_-]*)?'
+				captures:
+					'1':
+						name: 'entity.name.support.function.ssc'
+					'2':
+						name: 'entity.name.support.function.ssc'
+				name: 'meta.support.function.ssc'
+			}
+			{
+				match: '\\b(t\\.)+([a-zA-Z0-9_-]*)?'
+				captures:
+					'1':
+						name: 'entity.name.support.function.ssc'
+					'2':
+						name: 'entity.name.support.function.ssc'
+				name: 'meta.support.function.ssc'
+			}
+		]
